@@ -10,17 +10,31 @@ from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,ImageSendMessage,StickerSendMessage,FollowEvent,UnfollowEvent,
 )
 from linebot.models import *
+from models.user import Users
+from database import db_session, init_db
 
 app = Flask(__name__)
 
 
-line_bot_api = LineBotApi('')
-handler = WebhookHandler('')
+line_bot_api = LineBotApi('pblYghW+3xgZDhnLUXU1LNGd0+486G+xa3DkG3rgPw3HDFLmgX3tvXxos0/8PTAbVV4g+Ta+hEV2wEpLQzHTJZL//1+LsTn5ME7o9S5wkGlEAoTcw0tKZ0Xe720AYg0gtmnnmz06vsdMwEtznKmYGQdB04t89/1O/w1cDnyilFU=')
+handler = WebhookHandler('7662c1277ce94e8819e9cc1493fbd770')
 
 
 app = Flask(__name__)
 
+#建立或取得user
+def get_or_create_user(user_id):
+    #從id=user_id先搜尋有沒有這個user，如果有的話就會直接跳到return
+    user = db_session.query(Users).filter_by(id=user_id).first()
+    #沒有的話就會透過line_bot_api來取得用戶資訊
+    if not user:
+        profile = line_bot_api.get_profile(user_id)
+        #然後再建立user並且存入到資料庫當中
+        user = Users(id=user_id, nick_name=profile.display_name, image_url=profile.picture_url)
+        db_session.add(user)
+        db_session.commit()
 
+    return user
 def about_us_event(event):
     emoji = [
             {
@@ -91,5 +105,5 @@ def handle_follow(event):
     welcome_msg = """"""
 
 if __name__ == "__main__":
-    
+    init_db()
     app.run()
