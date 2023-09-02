@@ -31,4 +31,17 @@ alembic revision --autogenerate
 alembic upgrade head
 
 申請 line developer sandbox
+管理付款連結 - 管理連結金鑰 - 查詢
+登入 linepay 
+使用剛剛email驗證的登入:
+該LINE Pay Sandbox ID如下：
+ID : test_202309026378@line.pay
+PW : 8'4U6fPBru
 
+去 測試環境
+可以去sandbox 管理交易查詢
+
+login
+
+Scopes 全勾
+Bot link feature - On (Aggressive)
