@@ -1,0 +1,9 @@
+
+
+class Config:
+    CHANNEL_ACCESS_TOKEN = 'pblYghW+3xgZDhnLUXU1LNGd0+486G+xa3DkG3rgPw3HDFLmgX3tvXxos0/8PTAbVV4g+Ta+hEV2wEpLQzHTJZL//1+LsTn5ME7o9S5wkGlEAoTcw0tKZ0Xe720AYg0gtmnnmz06vsdMwEtznKmYGQdB04t89/1O/w1cDnyilFU='
+    CHANNEL_SECRET = '7662c1277ce94e8819e9cc1493fbd770'
+    LINE_PAY_ID = '2000604819'
+    LINE_PAY_SECRET = 'f192b591ee3ad38aa648acbcb791b82b'
+    STORE_IMAGE_URL = 'https://i.imgur.com/vsM6asL.jpg'
+
