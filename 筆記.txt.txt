@@ -8,40 +8,55 @@ line offical account 手機可下載
 電腦版設定: 聊天 - 回應設定(打開聊天)
            聊天回應方式 - 回應方式 - 手動聊天＋自動回應訊息
 
+主頁 - 自動回應訊息 - 自動回應訊息
+
 pip install cachelib==0.1
 pip install alembic
+# alembic 可能是類似migrate(建立中介檔案)的方式，畢竟使用的不是flask sqlalchemy
 
-要先按f5 init_products()
+建立順序:
+1.  要先按f5 init_products()
 
-alembic init alembic (會被防毒軟體檔)
+2.  alembic init alembic (會被防毒軟體檔)
 
-去 alembic.ini 裡面改
-sqlalchemy.url = sqlite:///lstore.db
+    去 alembic.ini 裡面改
+    sqlalchemy.url = sqlite:///lstore.db
 
-修改 alembic/env.py 
-import os
-import sys
-sys.path.append(os.getcwd())
+    修改 alembic/env.py 
+    import os
+    import sys
+    sys.path.append(os.getcwd())
 
-from app import *
-from database import Base
-target_metadata = Base.metadata
+    from app import *
+    from database import Base
+    target_metadata = Base.metadata
 
-alembic revision --autogenerate
-alembic upgrade head
+3.  alembic revision --autogenerate (會自動新增和更新資料庫，接著會看到新增的model(ex:order & items),
+    接著在alembic資料夾下 vision可以看到產生的程式碼)
+4.  alembic upgrade head (確認table沒錯之後可以輸入，檢查後會發現全部都更新)
 
 申請 line developer sandbox
-管理付款連結 - 管理連結金鑰 - 查詢
+
 登入 linepay 
 使用剛剛email驗證的登入:
 該LINE Pay Sandbox ID如下：
-ID : test_202309026378@line.pay
+ID : test_202309026378
 PW : 8'4U6fPBru
 
 去 測試環境
+
+管理付款連結 - 管理連結金鑰 - 查詢
+得到 Channel ID, Channel Secret Key
+才能使用管理交易
 可以去sandbox 管理交易查詢
 
-login
-
+line developer:
+create a new channel 選取database
+LINE login
+App types: Web app
+點右上 LIFF
+選 Add
+Endpoint URL: 輸入剛剛建立的github網頁連結
+full(滿版)  Tall(3分之2)  Compact(顯示一點點)
 Scopes 全勾
 Bot link feature - On (Aggressive)

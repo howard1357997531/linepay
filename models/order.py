@@ -11,9 +11,11 @@ class Orders(Base):
     transaction_id = Column(String)
     is_pay = Column(Boolean, default=False)
     created_time = Column(DateTime, default=func.now())
+    # many to one(與user建立foreignKey)寫法
     user_id = Column("user_id", ForeignKey("users.id"))
     items = relationship("Items", backref="order")
 
+    # 新增收據
     def display_receipt(self):
         item_box_component = []
 

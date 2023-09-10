@@ -7,7 +7,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,ImageSendMessage,StickerSendMessage,FollowEvent,UnfollowEvent,
+    MessageEvent, TextMessage, TextSendMessage ,StickerSendMessage, FollowEvent,
 )
 
 from linebot.models import *
@@ -17,19 +17,15 @@ from models.product import Products
 from models.cart import Cart
 from models.order import Orders
 from models.item import Items
-from config import Config
 from models.linepay import LinePay
+from config import Config
 from urllib.parse import parse_qsl
 import uuid
 
 app = Flask(__name__)
 
-
 line_bot_api = LineBotApi(Config.CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(Config.CHANNEL_SECRET)
-
-
-app = Flask(__name__)
 
 #建立或取得user
 def get_or_create_user(user_id):
@@ -44,6 +40,7 @@ def get_or_create_user(user_id):
         db_session.commit()
 
     return user
+    
 def about_us_event(event):
     emoji = [
             {
@@ -143,6 +140,11 @@ def handle_message(event):
             message
         )
 
+# 在 cart.py 中有使用 PostbackAction(label='Checkout',
+                                  # display_text='checkout',
+                                  # data='action=checkout')
+# 在 def handle_message(event): 底下加入
+# 當 user 按下 checkout 時會呼叫這個 function
 @handler.add(PostbackEvent)
 def handle_postback(event):
     data = dict(parse_qsl(event.postback.data))#先將postback中的資料轉成字典
@@ -162,7 +164,8 @@ def handle_postback(event):
 
             return 'OK'
 
-        order_id = uuid.uuid4().hex#如果有訂單的話就會使用uuid的套件來建立，因為它可以建立獨一無二的值
+        #如果有訂單的話就會使用uuid的套件來建立，因為它可以建立獨一無二的值
+        order_id = uuid.uuid4().hex
 
         total = 0 #總金額
         items = [] #暫存訂單項目
@@ -189,7 +192,7 @@ def handle_postback(event):
                             amount=total,
                             order_id=order_id,
                             product_image_url=Config.STORE_IMAGE_URL)
-        #取得付款連結和transactionId後
+        #取得付款連結和transactionId後(linepay.py  def _check_response(self, response))
         pay_web_url = info['paymentUrl']['web']
         transaction_id = info['transactionId']
         #接著就會產生訂單

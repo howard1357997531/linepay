@@ -7,9 +7,9 @@ cache = SimpleCache()
 
 class Cart(object):
     def __init__(self, user_id):
-        self.cache = cache
         self.user_id = user_id
-    
+        self.cache = cache
+
     def bucket(self):
         return cache.get(key=self.user_id) or {}
 
@@ -120,5 +120,6 @@ class Cart(object):
 
         message = FlexSendMessage(alt_text='Cart', contents=bubble)
 
-        return message#會回傳到app.py message = cart.display()
+        #會回傳到app.py message = cart.display()
+        return message
 
